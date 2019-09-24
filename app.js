@@ -15,7 +15,7 @@ window.onload = function () {
         for (i = 0; i < gridContainer.length; i++) {
             for (j = 0; j < gridTotal; j++) {
                 div = document.createElement('div')
-                div.setAttribute('id', 'gridBox')
+                div.setAttribute('id', j)
                 gridContainer[i].appendChild(div);
             }
             gridContainer[i].setAttribute('style', 'grid: repeat(' + gridSide + ',auto) / repeat(' + gridSide + ',auto)')
