@@ -6,8 +6,8 @@ window.onload = function () {
     var battleships = [];
     const GridSide = 10;
     const GridTotal = GridSide * GridSide;
-    var playerGrid = [];
-    var computerGrid = [];
+    var playerGrid;
+    var computerGrid;
 
 
     drawGrid(GridSide, GridTotal);
@@ -39,18 +39,45 @@ window.onload = function () {
             battleships.push(ship)
         }
     }
+
+    //reset grids
+
+    //set grids
+    function resetGrids() {
+        playerGrid = new Array(100);
+        computerGrid = new Array(100);
+    }
+
+
     //gets random number between 0-100
     function getRandomNumber() {
         return Math.floor(Math.random() * 100);
     }
     //
     //add ships to array
-    //0-99 range, start with first ship (shortest)
+
+
+    //checks if position in given array is empty/undefined
+    function checkIfCellEmpty(number, array) {
+        if (array[number] == undefined) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    resetGrids();
 
     //get random number between 0-100
     var placementSquare = getRandomNumber();
 
-    //check if ship already place in cell with that number, if so get another #
+    //check if ship already placed in cell with that number
+    if (checkIfCellEmpty(placementSquare, playerGrid)) {
+        //if empty, get random number (0 or 1) for layout
+        var layoutNumber = Math.floor(Math.random() * 2);
+    } else {
+        //
+    };
 
     //get random number of 1 or 2 (horizontal or vertical placement)
     //if 1(horizontal(+1 spaces)), check if ship already in cells to immediate right.  If so, check vertical
@@ -63,6 +90,8 @@ window.onload = function () {
     //check if ship will go off grid
 
     testShipObject();
+    var ship = battleships[0];
+    console.log(ship.length);
     function testShipObject() {
         for (i = 0; i < battleships.length; i++) {
             console.log(battleships[i]);
