@@ -1,99 +1,59 @@
-window.onload = function () {
+//setup
+const newGame = document.getElementById('reset');
+const gridContainer = document.querySelectorAll(".grid-container");
+var humanBattleships = [];
+var computerBattleships = [];
+const GridSide = 10;
+const GridTotal = GridSide * GridSide;
 
-    //setup
-    var gridContainer = document.querySelectorAll(".grid-container");
-    var humanBattleships = [];
-    var computerBattleships = []
-    const GridSide = 10;
-    const GridTotal = GridSide * GridSide;
-    var playerGrid;
-    var computerGrid;
-    var gamePlay = true;
+const playerGrid = [5, 5, 5, 5, 5, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 2, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 2, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 3, 3, 3, 0,
+    0, 0, 1, 0, 4, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 4, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 4, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 4, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    //create grids
-    drawGrid(GridSide, GridTotal);
-    resetGrids();
+const computerGrid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 2, 2, 0, 0, 0,
+    0, 5, 0, 1, 0, 0, 0, 0, 0, 0,
+    0, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 5, 0, 4, 4, 4, 4, 0, 3, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 3, 0];
 
-    while (gamePlay) {
+//create grids
+drawGrid(GridSide, GridTotal);
 
-    }
-
-    //create battle ships for both human and computer
+newGame.addEventListener('click', function () {
+    gameSetup();
     createShips();
+});
 
-    //place battleships in each grid
-    //loop through twice for both human and computer
-    //0 for human, 1 for computer
-    for (i = 0; i < 2; i++) {
-        let grid;
-        if (i = 0) {
-            grid = playerGrid;
-        } else {
-            grid = computerGrid;
+function drawGrid(gridSide, gridTotal) {
+    for (i = 0; i < gridContainer.length; i++) {
+        for (j = 0; j < gridTotal; j++) {
+            div = document.createElement('div')
+            div.setAttribute('id', j);
+            gridContainer[i].appendChild(div);
         }
-        //get random number between 0-100
-        var placementSquare = getRandomNumber();
-        //check if cell in grid is already taken
-        checkIfCellEmpty(placementSquare, grid);
-        checkHorizontalCell(placementSquare, grid);
-        checkVerticalCell(placementSquare, grid);
+        gridContainer[i].setAttribute('id', i);
+        gridContainer[i].setAttribute('style', 'grid: repeat(' + gridSide + ',auto) / repeat(' + gridSide + ',auto)')
     }
-
-    //if not taken, get random number for vertical or horizontal ship placement
-    //check if cells in grid for vertical or horizontal are taken
-    //if not taken, assign grid cells to ship
-    //else (cells taken), check opposite layout
-
-    //gameplay
-    //player selects cell
-    //check if cell is assigned to ship
-    //if cell is assigned to ship, mark as hit on that ship
-    //check if ship is sunk
-    //if sunk, check if game is over
-    //else, change players
-
-    function drawGrid(gridSide, gridTotal) {
-        for (i = 0; i < gridContainer.length; i++) {
-            for (j = 0; j < gridTotal; j++) {
-                div = document.createElement('div')
-                div.setAttribute('id', j);
-                gridContainer[i].appendChild(div);
-            }
-            gridContainer[i].setAttribute('id', i);
-            gridContainer[i].setAttribute('style', 'grid: repeat(' + gridSide + ',auto) / repeat(' + gridSide + ',auto)')
-        }
-    }
-
-    //returns true if horizontal neighboring cell is empty
-    function checkHorizontalCell(cell, array) {
-        if (array[cell + 1] == undefined) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    //returns true if vertical neighboring cell is empty
-    function checkVerticalCell(cell, array) {
-        if (array[cell + 10] == undefined) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }
 
 
-function BattleShip(length) {
-    this.length = length;
-    this.name = length.toString();
-    this.hits = 0;
-    this.isSunk = false;
-    this.cellPlacement = [];
-}
 
+//create battle ships for both human and computer
+//createShips();
 //create ship
+
 function createShips() {
     //loop through twice for both human and computer ships
     for (i = 0; i < 2; i++) {
@@ -113,64 +73,26 @@ function createShips() {
     }
 }
 
+function BattleShip(length) {
+    this.length = length;
+    this.name = length.toString();
+    this.hits = 0;
+    this.isSunk = false;
+    this.cellPlacement = [];
+}
+
+
 //reset grids
 
 //set grids
-function resetGrids() {
-    playerGrid = new Array(100);
-    computerGrid = new Array(100);
-}
 
-//gets random number between 0-100
-function getRandomNumber() {
-    return Math.floor(Math.random() * 100);
-}
-//
-//add ships to array
+const square = document.querySelectorAll('.grid-container div');
+square.forEach((square) => {
+    square.addEventListener('click', function (e) {
 
-//checks if position in given array is empty/undefined
-//returns true if empty
-function checkIfCellEmpty(number, array) {
-    if (array[number] == undefined) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-resetGrids();
-
-//check if ship already placed in cell with that number
-if (checkIfCellEmpty(placementSquare, playerGrid)) {
-    //if empty, get random number (0 or 1) for layout
-    var layoutNumber = Math.floor(Math.random() * 2);
-} else {
-    //
-};
-
-testShipObject();
-var ship = battleships[0];
-getRandomNumber();
-
-function testShipObject() {
-    for (i = 0; i < battleships.length; i++) {
-        console.log(battleships[i]);
-    }
-}
-
-var resetButton = document.getElementById('reset');
-resetButton.addEventListener('click', function () {
-    testShipObject();
-});
-
-function markSquare() {
-    var divs = document.querySelectorAll('.grid-container div');
-    divs.forEach((div) => {
-        div.addEventListener('mouseover', function (e) {
-            e.target.setAttribute('style', 'background: black');
-        });
+        e.target.setAttribute('style', 'background: red');
     });
-}
+});
 
 function gameSetup() {
     var divs = document.querySelectorAll('.grid-container div')
@@ -181,7 +103,7 @@ function gameSetup() {
 
 var resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', function () {
-    //gameSetup();
+    gameSetup();
 });
 
-}
+
