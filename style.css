@@ -25,6 +25,17 @@
 			padding-bottom: 1%;
 		}
 
+		.sqr{
+			font-size: 20pt;
+			font-family: arial;
+    		font-weight: bold;
+    		text-align: center;
+   			
+		}
+		.sqr:hover{
+			background-color: lightgray;
+		}
+
 		.btn{
 			margin-left: 1%;
 			margin-right: 1%;

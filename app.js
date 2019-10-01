@@ -41,6 +41,7 @@ function drawGrid(gridSide, gridTotal) {
         for (j = 0; j < gridTotal; j++) {
             div = document.createElement('div')
             div.setAttribute('id', j);
+            div.setAttribute('class', 'sqr');
             gridContainer[i].appendChild(div);
         }
         gridContainer[i].setAttribute('id', i);
@@ -89,8 +90,7 @@ function BattleShip(length) {
 const square = document.querySelectorAll('.grid-container div');
 square.forEach((square) => {
     square.addEventListener('click', function (e) {
-
-        e.target.setAttribute('style', 'background: red');
+        e.target.setAttribute('style', 'background: darkgrey');
     });
 });
 
