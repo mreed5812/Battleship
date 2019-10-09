@@ -52,6 +52,9 @@ function drawGrid(gridSide, gridTotal) {
     }
 }
 
+function updatePlayerTurn() {
+    playerTurn = !playerTurn;
+}
 function createShips() {
     //loop through twice for both human and computer ships
 
@@ -85,25 +88,37 @@ function updatePlayerShip(gridNumber) {
     console.log(playerBattleships[playerGrid[gridNumber] - 1]);
 }
 
-function updateComputerShip(eventID) {
+function updateComputerShip(gridNumver) {
+    let gridNum = gridNumber;
+    let ship = computerBattleships[computerGrid[gridNumber] - 1];
+    ship.hits += 1;
+    if (ship.hits == ship.length) {
+        ship.isSunk = true;
+    }
+    console.log(computerBattleships[computerGrid[gridNumber] - 1]);
 
 }
 
 const square = document.querySelectorAll('.grid-container div');
 square.forEach((square) => {
     square.addEventListener('click', function (e) {
+        console.log(e.target.parentNode.id);
         let gridNumber = e.target.id;
-        if (playerTurn) {
+        if (playerTurn && (e.target.parentNode.id == 1)) {
             if (playerGrid[gridNumber] != 0) {
                 //console.log(playerGrid[gridNumber])
                 updatePlayerShip(gridNumber);
+                console.log(playerTurn);
             }
         } else {
             if (computerGrid[gridNumber] != 0) {
                 updateComputerShip(gridNumber);
+                console.log(playerTurn);
             }
         }
+        e.target.setAttribute('class', "triggered")
         e.target.setAttribute('style', 'background: darkgrey');
+        updatePlayerTurn();
     });
 });
 
