@@ -88,7 +88,7 @@ function updatePlayerShip(gridNumber) {
     console.log(playerBattleships[playerGrid[gridNumber] - 1]);
 }
 
-function updateComputerShip(gridNumver) {
+function updateComputerShip(gridNumber) {
     let gridNum = gridNumber;
     let ship = computerBattleships[computerGrid[gridNumber] - 1];
     ship.hits += 1;
@@ -99,25 +99,39 @@ function updateComputerShip(gridNumver) {
 
 }
 
+function colorSquare(e) {
+    e.target.setAttribute('class', "triggered")
+    e.target.setAttribute('style', 'background: darkgrey');
+}
+
+//check cell selection is in proper grid given player turn
+function checkCellSelection(e) {
+    if (playerTurn && (e.target.parentNode.id == 1)) {
+        return true;
+    }
+}
+
+//On square click, run id # through hit logic 
 const square = document.querySelectorAll('.grid-container div');
 square.forEach((square) => {
     square.addEventListener('click', function (e) {
-        console.log(e.target.parentNode.id);
-        let gridNumber = e.target.id;
-        if (playerTurn && (e.target.parentNode.id == 1)) {
-            if (playerGrid[gridNumber] != 0) {
-                //console.log(playerGrid[gridNumber])
-                updatePlayerShip(gridNumber);
+        //Only used by player so logic made with only player in mind
+        //check cell selection
+        //if it's player turn and in computer grid, update grid
+        if (checkCellSelection(e)) {
+            if (computerGrid[e.target.id] != 0) {
+                console.log(computerGrid[e.target.id])
+                updatePlayerShip(e.target.id);
                 console.log(playerTurn);
             }
+            //else, display notificaiton that wrong grid is select
         } else {
-            if (computerGrid[gridNumber] != 0) {
-                updateComputerShip(gridNumber);
-                console.log(playerTurn);
-            }
+            alert("Cannot select cell within Player grid.  Please pick again.")
         }
-        e.target.setAttribute('class', "triggered")
-        e.target.setAttribute('style', 'background: darkgrey');
+
+        console.log(e.target.parentNode.id);
+
+        colorSquare(e);
         updatePlayerTurn();
     });
 });
