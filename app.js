@@ -96,43 +96,32 @@ function updateComputerShip(gridNumber) {
         ship.isSunk = true;
     }
     console.log(computerBattleships[computerGrid[gridNumber] - 1]);
-
 }
 
-function colorSquare(e) {
+function colorSquareMiss(e) {
     e.target.setAttribute('class', "triggered")
     e.target.setAttribute('style', 'background: darkgrey');
 }
 
-//check cell selection is in proper grid given player turn
-function checkCellSelection(e) {
-    if (playerTurn && (e.target.parentNode.id == 1)) {
-        return true;
-    }
+function colorSquareHit(e) {
+    e.target.setAttribute('class', "triggered")
+    e.target.setAttribute('style', 'background: red');
 }
 
 //On square click, run id # through hit logic 
-const square = document.querySelectorAll('.grid-container div');
+const square = document.querySelectorAll('.computer-grid div');
 square.forEach((square) => {
     square.addEventListener('click', function (e) {
-        //Only used by player so logic made with only player in mind
-        //check cell selection
-        //if it's player turn and in computer grid, update grid
-        if (checkCellSelection(e)) {
+        if (playerTurn) {
             if (computerGrid[e.target.id] != 0) {
-                console.log(computerGrid[e.target.id])
-                updatePlayerShip(e.target.id);
-                console.log(playerTurn);
+                colorSquareHit(e);
+                console.log(computerGrid[e.target.id]);
+            } else {
+                colorSquareMiss(e);
             }
-            //else, display notificaiton that wrong grid is select
-        } else {
-            alert("Cannot select cell within Player grid.  Please pick again.")
+            updatePlayerTurn();
         }
 
-        console.log(e.target.parentNode.id);
-
-        colorSquare(e);
-        updatePlayerTurn();
     });
 });
 

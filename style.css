@@ -47,3 +47,8 @@
 		.fluid-container{
 			display: flex;
 		}
+
+		#turnResult{
+			text-align: center;
+			padding-bottom: 1%;
+		}
