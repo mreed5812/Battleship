@@ -108,6 +108,20 @@ function colorSquareHit(e) {
     e.target.setAttribute('style', 'background: red');
 }
 
+function checkCell() {
+
+}
+
+function computerTurn() {
+    //get random number, 0-99
+    let randomNumber = (Math.floor(Math.random() * 100));
+    //check if cell has already been selected
+
+    //if so, get a new random number
+    //mark cell
+
+}
+
 //On square click, run id # through hit logic 
 const square = document.querySelectorAll('.computer-grid div');
 square.forEach((square) => {
