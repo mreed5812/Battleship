@@ -108,19 +108,21 @@ function colorSquareHit(e) {
     e.target.setAttribute('style', 'background: red');
 }
 
-function checkCell() {
-
-}
-
 function computerTurn() {
     //get random number, 0-99
     let randomNumber = (Math.floor(Math.random() * 100));
     //check if cell has already been selected
-
-    //if so, get a new random number
-    //mark cell
-
+    //let container = document.querySelector(".player-grid");
+    let container = document.getElementById('0');
+    let selectedSquare = container.querySelector("#" + CSS.escape(randomNumber));
+    if (selectedSquare.classList.contains("triggered")) {
+        console.log("this cell has been triggered");
+    } else {
+        console.log("cell is empty");
+    }
+    console.log(selectedSquare);
 }
+computerTurn();
 
 //On square click, run id # through hit logic 
 const square = document.querySelectorAll('.computer-grid div');
