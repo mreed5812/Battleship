@@ -61,13 +61,8 @@ function createShips() {
     for (i = 1; i < 6; i++) {
         let ship = new BattleShip(i);
         //store battleships in humanBattleship arrays
-        playerBattleships.push(ship)
-    }
-
-    for (i = 1; i < 6; i++) {
-        let ship = new BattleShip(i);
-        //store battleships in computerBattleship arrays
-        computerBattleships.push(ship)
+        playerBattleships.push(ship);
+        computerBattleships.push(ship);
     }
 }
 
@@ -107,22 +102,29 @@ function colorSquareHit(e) {
     e.target.setAttribute('class', "triggered")
     e.target.setAttribute('style', 'background: red');
 }
+var randomNumber;
+
+function getRandomNumber() {
+    randomNumber = (Math.floor(Math.random() * 100));
+}
 
 function computerTurn() {
-    //get random number, 0-99
-    let randomNumber = (Math.floor(Math.random() * 100));
     //check if cell has already been selected
     //let container = document.querySelector(".player-grid");
     let container = document.getElementById('0');
     let selectedSquare = container.querySelector("#" + CSS.escape(randomNumber));
     if (selectedSquare.classList.contains("triggered")) {
         console.log("this cell has been triggered");
+        computerTurn(getRandomNumber);
     } else {
-        console.log("cell is empty");
+        updatePlayerShip(randomNumber);
+        selectedSquare.setAttribute('class', "triggered");
+        selectedSquare.setAttribute('style', 'background: darkgrey');
     }
     console.log(selectedSquare);
+    updatePlayerTurn();
 }
-computerTurn();
+
 
 //On square click, run id # through hit logic 
 const square = document.querySelectorAll('.computer-grid div');
@@ -132,12 +134,13 @@ square.forEach((square) => {
             if (computerGrid[e.target.id] != 0) {
                 colorSquareHit(e);
                 console.log(computerGrid[e.target.id]);
+                updateComputerShip(e.target.id);
             } else {
                 colorSquareMiss(e);
             }
             updatePlayerTurn();
         }
-
+        computerTurn(getRandomNumber);
     });
 });
 
