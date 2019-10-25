@@ -46,6 +46,7 @@
 
 		.fluid-container{
 			display: flex;
+			margin-top: 2%;
 		}
 
 		#turnResult{

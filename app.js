@@ -5,6 +5,7 @@ var playerBattleships = [];
 var computerBattleships = [];
 const GridSide = 10;
 const GridTotal = GridSide * GridSide;
+let turnDisplay = document.getElementById('turnDisplay');
 //true for human turn, false for computer
 let playerTurn = true;
 
@@ -54,6 +55,7 @@ function drawGrid(gridSide, gridTotal) {
 
 function updatePlayerTurn() {
     playerTurn = !playerTurn;
+
 }
 function createShips() {
     //loop through twice for both human and computer ships
@@ -75,7 +77,9 @@ function BattleShip(length) {
 
 function updatePlayerShip(gridNumber) {
     let gridNum = gridNumber;
+    console.log(playerGrid[gridNumber]);
     let ship = playerBattleships[playerGrid[gridNumber] - 1];
+
     ship.hits += 1;
     if (ship.hits == ship.length) {
         ship.isSunk = true;
@@ -102,22 +106,31 @@ function colorSquareHit(e) {
     e.target.setAttribute('class', "triggered")
     e.target.setAttribute('style', 'background: red');
 }
-var randomNumber;
+
 
 function getRandomNumber() {
-    randomNumber = (Math.floor(Math.random() * 100));
+    return (Math.floor(Math.random() * 100));
 }
 
 function computerTurn() {
+    let randomNumber = getRandomNumber();
     //check if cell has already been selected
     //let container = document.querySelector(".player-grid");
     let container = document.getElementById('0');
     let selectedSquare = container.querySelector("#" + CSS.escape(randomNumber));
+
     if (selectedSquare.classList.contains("triggered")) {
         console.log("this cell has been triggered");
-        computerTurn(getRandomNumber);
-    } else {
-        updatePlayerShip(randomNumber);
+        computerTurn();
+    }
+    console.log(playerGrid[selectedSquare.id]);
+    if (playerGrid[selectedSquare.id] != 0) {
+        console.log("Hit on player ship");
+        selectedSquare.setAttribute('class', "triggered");
+        selectedSquare.setAttribute('style', 'background: red');
+    }
+    else {
+        // updatePlayerShip(randomNumber);
         selectedSquare.setAttribute('class', "triggered");
         selectedSquare.setAttribute('style', 'background: darkgrey');
     }
@@ -130,10 +143,19 @@ function computerTurn() {
 const square = document.querySelectorAll('.computer-grid div');
 square.forEach((square) => {
     square.addEventListener('click', function (e) {
+        //check if it's the player's turn
         if (playerTurn) {
+            if (e.target.classList.contains("triggered")) {
+                alert("Square has already been selected.  Please choose again.");
+                return;
+            }
+
+            //check if selected square contains battleship
             if (computerGrid[e.target.id] != 0) {
+                //color the square for a hit
                 colorSquareHit(e);
                 console.log(computerGrid[e.target.id]);
+                //update the computer ship object that was hit, passing event target id
                 updateComputerShip(e.target.id);
             } else {
                 colorSquareMiss(e);
