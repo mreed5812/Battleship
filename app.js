@@ -64,6 +64,11 @@ function createShips() {
         let ship = new BattleShip(i);
         //store battleships in humanBattleship arrays
         playerBattleships.push(ship);
+
+    }
+
+    for (i = 1; i < 6; i++) {
+        let ship = new BattleShip(i);
         computerBattleships.push(ship);
     }
 }
@@ -75,16 +80,38 @@ function BattleShip(length) {
     this.isSunk = false;
 }
 
+function checkIfGameOver() {
+    let sunkPlayerShipsCounter = 0;
+    let sunkComputerShipsCounter = 0;
+    for (i = 0; i < 5; i++) {
+
+        if (playerBattleships[i].isSunk == true) {
+            sunkPlayerShipsCounter++;
+            console.log("Player sunk counter: " + sunkPlayerShipsCounter);
+        }
+
+        if (computerBattleships[i].isSunk == true) {
+            sunkComputerShipsCounter++;
+            console.log("Computer sunk counter: " + sunkComputerShipsCounter);
+        }
+    }
+    if (sunkComputerShipsCounter == 5) {
+        alert("Game Over. Player wins!");
+        gameSetup();
+    }
+    if (sunkPlayerShipsCounter == 5) {
+        alert("Game Over. Computer wins!");
+        gameSetup();
+    }
+
+}
 function updatePlayerShip(gridNumber) {
     let gridNum = gridNumber;
-    console.log(playerGrid[gridNumber]);
     let ship = playerBattleships[playerGrid[gridNumber] - 1];
-
     ship.hits += 1;
     if (ship.hits == ship.length) {
         ship.isSunk = true;
     }
-    console.log(playerBattleships[playerGrid[gridNumber] - 1]);
 }
 
 function updateComputerShip(gridNumber) {
@@ -94,7 +121,6 @@ function updateComputerShip(gridNumber) {
     if (ship.hits == ship.length) {
         ship.isSunk = true;
     }
-    console.log(computerBattleships[computerGrid[gridNumber] - 1]);
 }
 
 function colorSquareMiss(e) {
@@ -123,18 +149,18 @@ function computerTurn() {
         console.log("this cell has been triggered");
         computerTurn();
     }
-    console.log(playerGrid[selectedSquare.id]);
+
     if (playerGrid[selectedSquare.id] != 0) {
         console.log("Hit on player ship");
         selectedSquare.setAttribute('class', "triggered");
         selectedSquare.setAttribute('style', 'background: red');
+        updatePlayerShip(randomNumber);
     }
     else {
-        // updatePlayerShip(randomNumber);
         selectedSquare.setAttribute('class', "triggered");
         selectedSquare.setAttribute('style', 'background: darkgrey');
     }
-    console.log(selectedSquare);
+    //console.log(selectedSquare);
     updatePlayerTurn();
 }
 
@@ -154,7 +180,7 @@ square.forEach((square) => {
             if (computerGrid[e.target.id] != 0) {
                 //color the square for a hit
                 colorSquareHit(e);
-                console.log(computerGrid[e.target.id]);
+                //console.log(computerGrid[e.target.id]);
                 //update the computer ship object that was hit, passing event target id
                 updateComputerShip(e.target.id);
             } else {
@@ -163,6 +189,7 @@ square.forEach((square) => {
             updatePlayerTurn();
         }
         computerTurn(getRandomNumber);
+        checkIfGameOver();
     });
 });
 
